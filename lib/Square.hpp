@@ -33,5 +33,5 @@ public:
     COLOR getColor();
     void setPiece(PIECE);
     PIECE getPiece();
-    char getRep();
+    char getChar(COLOR);
 };

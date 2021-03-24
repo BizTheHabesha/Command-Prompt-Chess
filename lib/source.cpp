@@ -66,55 +66,89 @@ COLOR Square::getColor(){
 PIECE Square::getPiece(){
     return piece;
 }
-char Square::getRep(){
-    
+char Square::getChar(COLOR sq_color){
+    if(color == BLACK){
+        switch(piece){
+            case PAWN: return char(PAWN);
+            case ROOK: return char(ROOK);
+            case BISHOP: return char(BISHOP);
+            case KNIGHT: return char(KNIGHT);
+            case QUEEN: return char(QUEEN);
+            case KING: return char(KING);
+            case NONE: 
+                if(sq_color == BLACK) return ' ';
+                else return '.';
+        };
+    }else if(color == WHITE){
+        switch(piece){
+            case PAWN: return (char(PAWN)-32);
+            case ROOK: return (char(ROOK)-32);
+            case BISHOP: return (char(BISHOP)-32);
+            case KNIGHT: return (char(KNIGHT)-32);
+            case QUEEN: return (char(QUEEN)-32);
+            case KING: return (char(KING)-32); 
+            case NONE:
+                if(sq_color == BLACK) return ' ';
+                else return '.';
+        };
+    }else if(color == NONE && sq_color == BLACK) return ' ';
+    else if(color == NONE && sq_color == WHITE) return '.';
+    else{
+        try{
+            throw runtime_error(string(" broken logic..."));
+        }catch(runtime_error& rte){
+            cerr << rte.what() << endl;
+            abort();
+        }
+    }
 }
 
 Board::Board(){
     populate();
 }
 void Board::populate(){
+    // populate from cache
     Square temp;
     temp.setPiece(EMPTY);
     temp.setColor(NONE);
     for(int x = 0; x < 8; x++){
         for(int y = 0; y < 8; y++){
+            if(y == 6 || y == 1){
+                temp.setPiece(PAWN); //initialize pawns
+                if(y == 6) temp.setColor(BLACK);
+                else temp.setColor(WHITE);
+            }
+
             temp.setX(x);
             temp.setY(y);
             square_arr[x][y] = temp;
+            temp.setColor(NONE);
+            temp.setPiece(EMPTY);
         }
     }
 }
 void Board::drawBoard(){
-        // draw from cache.
+        // draw from array.
+        cout << "   +________________________________________________+" << endl;
+        for(int l = 0; l < 24; l++){
+            if(l % 3 == 1 || l == 1){
+                if(l % 2 == 0){
+                    cout << " " << (l+2)/3 << " |";
+                    for(int i = 0; i < 8; i+=2) cout << "   " <<square_arr[i][(l-1)/3].getChar(BLACK)<<"  ..."<<square_arr[i+1][(l-1)/3].getChar(WHITE)<<"..";
+                    cout << endl;
+                }
+                else{
+                    cout << " " << (l+2)/3 << " |";
+                    for(int i = 0; i < 8; i+=2) cout << "..." <<square_arr[i][(l-1)/3].getChar(WHITE)<<"..   "<<square_arr[i+1][(l-1)/3].getChar(BLACK)<<"  ";
+                    cout << "|" << endl;
+                }
+            }else{
+                if(l % 2 == 0) cout << "   |......      ......      ......      ......      |" << endl;
+                else cout << "   |      ......      ......      ......      ......|" << endl;
+            }
+        }
+        cout << "   +________________________________________________+" << endl;
         cout << "       a     b     c     d     e     f    g     h   " << endl;
-        cout << "   +________________________________________________+" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << " 1 |......      ......      ......      ......      |" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << " 2 |      ......      ......      ......      ......|" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << " 3 |......      ......      ......      ......      |" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << " 4 |      ......      ......      ......      ......|" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << " 5 |......      ......      ......      ......      |" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << " 6 |      ......      ......      ......      ......|" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << " 7 |......      ......      ......      ......      |" << endl;
-        cout << "   |......      ......      ......      ......      |" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << " 8 |      ......      ......      ......      ......|" << endl;
-        cout << "   |      ......      ......      ......      ......|" << endl;
-        cout << "   +________________________________________________+" << endl;
-        // save to cache
 }
 COLOR Board::playGame(){
     COLOR winner;
