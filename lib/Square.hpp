@@ -15,7 +15,7 @@
 
 using namespace std;
 
-enum PIECE{EMPTY = -1, PAWN = 'p', ROOK = 'r', KNIGHT = 'k', BISHOP = 'b', QUEEN = 'q', KING = 'n'};
+enum PIECE{EMPTY = -1, PAWN = 'p', ROOK = 'r', KNIGHT = 'n', BISHOP = 'b', QUEEN = 'q', KING = 'k'};
 enum COLOR{NONE = -1, WHITE = true, BLACK = false}; // color of the pieces
 
 class Square{
