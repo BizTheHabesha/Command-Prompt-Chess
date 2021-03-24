@@ -66,8 +66,13 @@ COLOR Square::getColor(){
 PIECE Square::getPiece(){
     return piece;
 }
+char Square::getRep(){
+    
+}
 
-
+Board::Board(){
+    populate();
+}
 void Board::populate(){
     Square temp;
     temp.setPiece(EMPTY);
@@ -80,13 +85,51 @@ void Board::populate(){
         }
     }
 }
+void Board::drawBoard(){
+        // draw from cache.
+        cout << "       a     b     c     d     e     f    g     h   " << endl;
+        cout << "   +________________________________________________+" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << " 1 |......      ......      ......      ......      |" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << " 2 |      ......      ......      ......      ......|" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << " 3 |......      ......      ......      ......      |" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << " 4 |      ......      ......      ......      ......|" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << " 5 |......      ......      ......      ......      |" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << " 6 |      ......      ......      ......      ......|" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << " 7 |......      ......      ......      ......      |" << endl;
+        cout << "   |......      ......      ......      ......      |" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << " 8 |      ......      ......      ......      ......|" << endl;
+        cout << "   |      ......      ......      ......      ......|" << endl;
+        cout << "   +________________________________________________+" << endl;
+        // save to cache
+}
 COLOR Board::playGame(){
-
+    COLOR winner;
+    string s;
     while(1){
-        // redraw board
+        //system("CLS"); // clear
+        drawBoard();
         // wait for user input
         // confirm & preform action
-        system("CLS"); // clear
         break;
     }
+    if(winner == BLACK) cout << "Black won! ";
+    else if(winner == WHITE) cout << "White won! ";
+    else cout << "Stalemate. ";
+    cout << "Press enter to continue.\n";
+    getline(cin, s, '\n');
+    return winner;
 }

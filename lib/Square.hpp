@@ -15,7 +15,7 @@
 
 using namespace std;
 
-enum PIECE{EMPTY = -1, PAWN = 0, ROOK, KNIGHT, BISHOP, QUEEN, KING};
+enum PIECE{EMPTY = -1, PAWN = 'p', ROOK = 'r', KNIGHT = 'k', BISHOP = 'b', QUEEN = 'q', KING = 'n'};
 enum COLOR{NONE = -1, WHITE = true, BLACK = false}; // color of the pieces
 
 class Square{
@@ -33,4 +33,5 @@ public:
     COLOR getColor();
     void setPiece(PIECE);
     PIECE getPiece();
+    char getRep();
 };
