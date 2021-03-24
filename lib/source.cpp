@@ -118,6 +118,15 @@ void Board::populate(){
                 if(y == 6) temp.setColor(BLACK);
                 else temp.setColor(WHITE);
             }
+            if(y == 0 || y == 7){// initialize everything else
+                if(y==0) temp.setColor(WHITE);
+                else if(y == 7)temp.setColor(BLACK);
+                if(x == 0 || x == 7) temp.setPiece(ROOK);
+                else if(x == 1 || x == 6) temp.setPiece(KNIGHT);
+                else if(x == 2 || x == 5) temp.setPiece(BISHOP);
+                else if(x == 3) temp.setPiece(QUEEN);
+                else if(x == 4) temp.setPiece(KING);
+            }
 
             temp.setX(x);
             temp.setY(y);
