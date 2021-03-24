@@ -18,7 +18,6 @@
 class Board{
 private:
     enum GAME_STATE{norm = 1, check = 2, checkmate = 0};
-    fstream sgf;
     Square square_arr[8][8] = {}; // internal structure
     bool movePawn(Square*, Square*);
     bool moveRook(Square*, Square*);
@@ -31,7 +30,6 @@ public:
     bool drawBoard();
     bool saveGame();
     bool loadGame();
-    bool linkFile(fstream);
     bool movePiece(Square*, Square*); // use the int to preform the correct method call. check for off board inputs
     void populate();
     COLOR playGame(); //return the color that won.
