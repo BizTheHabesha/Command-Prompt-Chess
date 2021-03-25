@@ -17,7 +17,7 @@
 
 class Board{
 private:
-    enum GAME_STATE{NORM = 0, CHECK_B = -2, CHECK_W = 2, CHECKMATE_W = 1, CHECKMATE_B = -1};
+    enum GAME_STATE{NORM = 0, CHECK_B = -2, CHECK_W = 2, CHECKMATE_W = 1, CHECKMATE_B = -1}; //
     Square square_arr[8][8] = {}; // internal structure
     bool movePawn(Square*, Square*);
     bool moveRook(Square*, Square*);
@@ -30,7 +30,7 @@ public:
     void drawBoard();/*Draw the board from cached memory*/
     bool saveGame();
     bool loadGame(); // send the saved data to cache to be drawn.
-    bool movePiece(); // ask user for locations, check for off board locations.
+    bool movePiece(COLOR); // ask user for locations, check for off board locations.
     void populate();
     COLOR playGame(); //return the color that won.
 };

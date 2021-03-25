@@ -7,6 +7,7 @@
 #include <vector>
 #include "Board.hpp" 
 #include "Square.hpp"
+#include "functions.hpp"
 
 using namespace std;
 string defaultSaveGameLocation = "../saves/initsave.chess";
@@ -107,8 +108,59 @@ char Square::getChar(COLOR sq_color){
 Board::Board(){
     populate();
 }
-bool Board::saveGame(){return true;}
-bool Board::movePiece(){return true;}
+bool Board::saveGame(){return true;} // W I P
+bool Board::movePiece(COLOR this_){
+    string s, msg;
+    int xsrc, ysrc, xdest, ydest;
+    while(1){
+        system("CLS");
+        drawBoard();
+        cout << msg << endl;
+        msg = "";
+        cout << " What piece would you like to move? [Ex. B7]\n Type 'C' to cancel\n  > ";
+        getline(cin, s, '\n');
+        if(s == "C") return false;
+        if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid row.";
+        else ysrc = s[0]-65;
+        if(s[1] > 8 || s[1] < 49) msg+=" That isn't a valid column.";
+        else xsrc = s[1]-49;
+
+        cout << "Where would you like to move it? [Ex. B7]\n Type 'C' to cancel\n  > ";
+        getline(cin, s, '\n');
+        if(s == "C") continue;
+        if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid row.";
+        else ydest = s[0]-65;
+        if(s[1] > 8 || s[1] < 49) msg+=" That isn't a valid column.";
+        else xdest = s[1]-49;
+        if(msg.empty()) break;
+    }
+
+    Square* src = &square_arr[xsrc][ysrc];
+    Square* dest = &square_arr[xdest][ydest];
+
+    switch(square_arr[xsrc][ysrc].getPiece()){
+        case PAWN:
+            movePawn(src, dest);
+            break;
+        case ROOK:
+            moveRook(src, dest);
+            break;
+        case BISHOP:
+            moveBishop(src, dest);
+            break;
+        case KNIGHT:
+            moveKnight(src, dest);
+            break;
+        case QUEEN:
+            moveQueen(src, dest);
+            break;
+        case KING:
+            moveKing(src, dest);
+            break;
+        default:
+            cout << "An error occured while moving a piece\n";
+    }
+}
 void Board::populate(){
     // populate from cache
     Square temp;
@@ -176,7 +228,7 @@ COLOR Board::playGame(){
         cout << " [Turn: " << turns << "] " << s <<"'s turn:    [1] Move    [2] Resign    [3] Save and Exit\n  > ";
         getline(cin, s, '\n');
         if(s == "1"){
-            if(movePiece()){
+            if(movePiece(myTurn)){
                 myTurn = COLOR(!myTurn);
                 turns++;
             }
