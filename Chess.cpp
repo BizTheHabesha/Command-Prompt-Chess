@@ -1,4 +1,4 @@
-#include "../lib/source.cpp"
+#include "src/source.cpp"
 
 using namespace std;
 
