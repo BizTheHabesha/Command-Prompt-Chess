@@ -108,61 +108,100 @@ char Square::getChar(COLOR sq_color){
 Board::Board(){
     populate();
 }
+bool Board::movePawn(Square* src, Square* dest){
+    if((src->getColor() == BLACK && src->getY() == 6) || (src->getColor() == WHITE && src->getY() == 1)){
+        if(dest->getY() == src->getY()+1){
+            // valid move
+        }
+        else if(dest->getY() == src->getY()+2){
+            //valid move
+        }
+        else return false;
+    }else if(dest->getY() == src->getY()+1){
+        // valid move
+    }else return false;
+    return true;
+}
+bool Board::moveRook(Square* src, Square* dest){
+
+}
+bool Board::moveKnight(Square* src, Square* dest){
+
+}
+bool Board::moveBishop(Square* src, Square* dest){
+
+}
+bool Board::moveQueen(Square* src, Square* dest){
+
+}
+bool Board::moveKing(Square* src, Square* dest){
+
+}
 bool Board::saveGame(){return true;} // W I P
 bool Board::movePiece(COLOR this_){
     string s, msg;
     int xsrc, ysrc, xdest, ydest;
+    bool success;
     while(1){
         system("CLS");
         drawBoard();
         cout << msg << endl;
-        msg = "";
-        cout << " What piece would you like to move? [Ex. B7]\n Type 'C' to cancel\n  > ";
+        msg.clear();
+        cout << " What piece would you like to move? [Ex: B7]\n Type 'C' to cancel\n  > ";
         getline(cin, s, '\n');
         if(s == "C") return false;
-        if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid row.";
-        else ysrc = s[0]-65;
-        if(s[1] > 8 || s[1] < 49) msg+=" That isn't a valid column.";
-        else xsrc = s[1]-49;
+        if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid column.";
+        else xsrc = s[0]-65;
+        if(s[1] > 57 || s[1] < 49) msg+=" That isn't a valid row.";
+        else ysrc = s[1]-49;
+        if(!msg.empty()) continue;
+        if(square_arr[xsrc][ysrc].getColor() != this_){
+            msg+=" That isn't your color.";
+            continue;
+        }
+        else if(square_arr[xsrc][ysrc].getPiece() == EMPTY){
+            msg+=" There is no piece there.";
+            continue;
+        }
 
-        cout << "Where would you like to move it? [Ex. B7]\n Type 'C' to cancel\n  > ";
+        cout << "Where would you like to move it? [Ex: B7]\n Type 'C' to cancel\n  > ";
         getline(cin, s, '\n');
         if(s == "C") continue;
         if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid row.";
-        else ydest = s[0]-65;
-        if(s[1] > 8 || s[1] < 49) msg+=" That isn't a valid column.";
-        else xdest = s[1]-49;
-        if(msg.empty()) break;
-    }
+        else xdest = s[0]-65;
+        if(s[1] > 57 || s[1] < 49) msg+=" That isn't a valid column.";
+        else ydest = s[1]-49;
+        if(!msg.empty()) continue;
+        if(square_arr[xdest][ydest].getColor() == this_ && square_arr[xdest][ydest].getPiece() != EMPTY){
+            msg+=" You already have a piece there.";
+            continue;
+        }
 
-    Square* src = &square_arr[xsrc][ysrc];
-    Square* dest = &square_arr[xdest][ydest];
+        Square* src = &square_arr[xsrc][ysrc];
+        Square* dest = &square_arr[xdest][ydest];
+        if(src->getColor() == this_) return false;
 
-    switch(square_arr[xsrc][ysrc].getPiece()){
-        case PAWN:
-            movePawn(src, dest);
-            break;
-        case ROOK:
-            moveRook(src, dest);
-            break;
-        case BISHOP:
-            moveBishop(src, dest);
-            break;
-        case KNIGHT:
-            moveKnight(src, dest);
-            break;
-        case QUEEN:
-            moveQueen(src, dest);
-            break;
-        case KING:
-            moveKing(src, dest);
-            break;
-        default:
-            cout << "An error occured while moving a piece\n";
+        PIECE srcpiece = src->getPiece();
+        if(srcpiece == PAWN) success = movePawn(src, dest);
+        else if(srcpiece == ROOK) success = moveRook(src, dest);
+        else if(srcpiece == BISHOP) success = moveBishop(src, dest);
+        else if(srcpiece == KNIGHT) success = moveKnight(src, dest);
+        else if(srcpiece == QUEEN) success = moveQueen(src, dest);
+        else if(srcpiece == KING) success = moveKing(src, dest);
+        else{
+            msg+=" An error occured while moving a piece.";
+            continue;
+        }
+        if(!success) msg+=src->getChar(this_)+" cannot move there.";
+        else break;
     }
+    return true;
 }
 void Board::populate(){
     // populate from cache
+    for(int x = 0; x < 8; x++){
+        for(int y = 0; y < 8; y++) square_arr[x][y].setColor(NONE);
+    }
     Square temp;
     temp.setPiece(EMPTY);
     temp.setColor(NONE);
@@ -173,7 +212,7 @@ void Board::populate(){
                 if(y == 6) temp.setColor(BLACK);
                 else temp.setColor(WHITE);
             }
-            if(y == 0 || y == 7){// initialize everything else
+            else if(y == 0 || y == 7){// initialize everything else
                 if(y==0) temp.setColor(WHITE);
                 else if(y == 7)temp.setColor(BLACK);
                 if(x == 0 || x == 7) temp.setPiece(ROOK);
@@ -194,25 +233,36 @@ void Board::populate(){
 void Board::drawBoard(){
         // draw from array.
         cout << "   +________________________________________________+" << endl;
+        // the chess board is made up of 24 lines of text, plus the caps and the letters on the bottom.
         for(int l = 0; l < 24; l++){
+            // every third row begging from the second row is where a piece could be rendered. 
             if(l % 3 == 1 || l == 1){
+                // even rows start on a black square, odd start on white.
                 if(l % 2 == 0){
+                    // convineitly, the lines containing pieces are also the lines containing numbers. 
                     cout << " " << (l+2)/3 << " |";
+                    // iterate 4 times, each time 'i' is incremented by 2. The render looks the same after the first two squares.
                     for(int i = 0; i < 8; i+=2) cout << "   " <<square_arr[i][(l-1)/3].getChar(BLACK)<<"  ..."<<square_arr[i+1][(l-1)/3].getChar(WHITE)<<"..";
+                    // cap the sides of the board
                     cout << "|" << endl;
                 }
+                // odd lines
                 else{
+        
                     cout << " " << (l+2)/3 << " |";
                     for(int i = 0; i < 8; i+=2) cout << "..." <<square_arr[i][(l-1)/3].getChar(WHITE)<<"..   "<<square_arr[i+1][(l-1)/3].getChar(BLACK)<<"  ";
                     cout << "|" << endl;
                 }
+            // for non chess lines, which are just the squares. again, we check for even and and odd.
             }else{
                 if(l % 2 == 0) cout << "   |......      ......      ......      ......      |" << endl;
                 else cout << "   |      ......      ......      ......      ......|" << endl;
             }
         }
+        // cap the bottom.
         cout << "   +________________________________________________+" << endl;
-        cout << "       a     b     c     d     e     f    g     h   " << endl;
+        // letters for the user to make use of.
+        cout << "       A     B     C     D     E     F    G     H   " << endl;
 }
 COLOR Board::playGame(){
     COLOR myTurn = WHITE;
