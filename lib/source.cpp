@@ -20,6 +20,7 @@ int linkFile(string location){
     getline(save, temp, '\n');
     save.close();
     if(temp != "Command-Prompt-Chess-Save-File") cout << "Invalid save game file.\n";
+    return 0;
 }
 int editConfig(int setting){
     fstream config;
@@ -101,6 +102,7 @@ char Square::getChar(COLOR sq_color){
             abort();
         }
     }
+    return '?';
 }
 
 Board::Board(){
@@ -144,7 +146,7 @@ void Board::drawBoard(){
                 if(l % 2 == 0){
                     cout << " " << (l+2)/3 << " |";
                     for(int i = 0; i < 8; i+=2) cout << "   " <<square_arr[i][(l-1)/3].getChar(BLACK)<<"  ..."<<square_arr[i+1][(l-1)/3].getChar(WHITE)<<"..";
-                    cout << endl;
+                    cout << "|" << endl;
                 }
                 else{
                     cout << " " << (l+2)/3 << " |";
