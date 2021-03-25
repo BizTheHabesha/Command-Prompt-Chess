@@ -166,7 +166,7 @@ bool Board::movePiece(COLOR this_){
 
         cout << "Where would you like to move it? [Ex: B7]\n Type 'C' to cancel\n  > ";
         getline(cin, s, '\n');
-        if(s == "C") continue;
+        if(s == "C") return false;
         if(s[0] > 72 || s[0] < 65) msg+=" That isn't a valid row.";
         else xdest = s[0]-65;
         if(s[1] > 57 || s[1] < 49) msg+=" That isn't a valid column.";
@@ -179,7 +179,6 @@ bool Board::movePiece(COLOR this_){
 
         Square* src = &square_arr[xsrc][ysrc];
         Square* dest = &square_arr[xdest][ydest];
-        if(src->getColor() == this_) return false;
 
         PIECE srcpiece = src->getPiece();
         if(srcpiece == PAWN) success = movePawn(src, dest);
