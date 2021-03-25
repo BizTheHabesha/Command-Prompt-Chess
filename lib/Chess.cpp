@@ -191,7 +191,11 @@ bool Board::movePiece(COLOR this_){
             msg+=" An error occured while moving a piece.";
             continue;
         }
-        if(!success) msg+=src->getChar(this_)+" cannot move there.";
+        if(!success){
+            msg+=" ";
+            msg+=(src->getChar(this_));
+            msg+=" cannot move there.";
+        }
         else break;
     }
     return true;
