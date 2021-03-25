@@ -30,7 +30,7 @@ public:
     void drawBoard();/*Draw the board from cached memory*/
     bool saveGame();
     bool loadGame(); // send the saved data to cache to be drawn.
-    bool movePiece(Square*, Square*); // use the int to preform the correct method call. check for off board inputs
+    bool movePiece(); // ask user for locations, check for off board locations.
     void populate();
     COLOR playGame(); //return the color that won.
 };

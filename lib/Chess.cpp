@@ -107,6 +107,8 @@ char Square::getChar(COLOR sq_color){
 Board::Board(){
     populate();
 }
+bool Board::saveGame(){return true;}
+bool Board::movePiece(){return true;}
 void Board::populate(){
     // populate from cache
     Square temp;
@@ -161,14 +163,38 @@ void Board::drawBoard(){
         cout << "       a     b     c     d     e     f    g     h   " << endl;
 }
 COLOR Board::playGame(){
+    COLOR myTurn = WHITE;
     COLOR winner;
     string s;
+    bool success;
+    int turns = 1;
     while(1){
-        //system("CLS"); // clear
+        system("CLS"); // clear
         drawBoard();
-        // wait for user input
-        // confirm & preform action
-        break;
+        if(myTurn) s = "White";
+        else s = "Black";
+        cout << " [Turn: " << turns << "] " << s <<"'s turn:    [1] Move    [2] Resign    [3] Save and Exit\n  > ";
+        getline(cin, s, '\n');
+        if(s == "1"){
+            if(movePiece()){
+                myTurn = COLOR(!myTurn);
+                turns++;
+            }
+        }
+        else if(s == "2"){
+            system("CLS");
+            cout << " This means your opponent wins, are you sure?\n [1] Yes, resign the match\n [2] No, take me back!\n > ";
+            getline(cin, s, '\n');
+            if(s == "2") continue;
+            winner = COLOR(!myTurn);
+            break;
+        }
+        else if(s == "3"){
+            saveGame();
+            cout << "Saved! Press enter to continue.\n";
+            getline(cin, s, '\n');
+            return myTurn;
+        }
     }
     if(winner == BLACK) cout << "Black won! ";
     else if(winner == WHITE) cout << "White won! ";
