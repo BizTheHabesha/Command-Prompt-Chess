@@ -7,7 +7,7 @@ int main(){
     string s;
     while(1){
         b.playGame();
-        cout << "Play again?\n[1] Yes\n[Any] Exit\n > ";
+        cout << "Play again?    [1] Yes    [Any] Exit\n > ";
         getline(cin, s, '\n');
         if(s != "1") break;
     }
