@@ -109,18 +109,35 @@ Board::Board(){
     populate();
 }
 bool Board::movePawn(Square* src, Square* dest){
-    if((src->getColor() == BLACK && src->getY() == 6) || (src->getColor() == WHITE && src->getY() == 1)){
-        if(dest->getY() == src->getY()+1){
-            // valid move
-        }
-        else if(dest->getY() == src->getY()+2){
-            //valid move
-        }
-        else return false;
-    }else if(dest->getY() == src->getY()+1){
-        // valid move
-    }else return false;
-    return true;
+    bool validity = false;
+    if((dest->getX() == src->getX()) 
+    && (src->getColor() == WHITE) 
+    && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1)))){
+        validity = true;
+    }
+    else if((dest->getX() == src->getX()) 
+    && (src->getColor() == BLACK) 
+    && ((dest->getY() == src->getY()-1) || ((dest->getY() == src->getY()-2) && (src->getY() == 6)))){
+        validity = true;
+    }
+    else if(src->getColor() == WHITE){
+        validity = true;
+    }
+    else if((dest->getY() == src->getY()+1) 
+    && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1) 
+    && (dest->getColor() != src->getColor()) 
+    && (src->getColor() != NONE)){
+        validity = true;
+    }
+    else validity = false;
+
+    if(validity){
+        dest->setPiece(src->getPiece());
+        dest->setColor(src->getColor());
+        src->setColor(NONE);
+        src->setPiece(EMPTY);
+    }
+    return validity;
 }
 bool Board::moveRook(Square* src, Square* dest){
 
@@ -155,15 +172,15 @@ bool Board::movePiece(COLOR this_){
         if(s[1] > 57 || s[1] < 49) msg+=" That isn't a valid row.";
         else ysrc = s[1]-49;
         if(!msg.empty()) continue;
-        if(square_arr[xsrc][ysrc].getColor() != this_){
-            msg+=" That isn't your color.";
-            continue;
-        }
-        else if(square_arr[xsrc][ysrc].getPiece() == EMPTY){
+        if(square_arr[xsrc][ysrc].getPiece() == EMPTY){
             msg+=" There is no piece there.";
             continue;
         }
-
+        else if(square_arr[xsrc][ysrc].getColor() != this_){
+            msg+=" That isn't your color.";
+            continue;
+        }
+        
         cout << "Where would you like to move it? [Ex: B7]\n Type 'C' to cancel\n  > ";
         getline(cin, s, '\n');
         if(s == "C") return false;
