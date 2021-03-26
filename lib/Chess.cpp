@@ -133,9 +133,7 @@ bool Board::movePawn(Square* src, Square* dest){
             return true;
         }
     }
-    return false;
-
-
+    else return false;
 }
 bool Board::moveRook(Square* src, Square* dest){
 
