@@ -109,41 +109,41 @@ Board::Board(){
     populate();
 }
 bool Board::movePawn(Square* src, Square* dest){
-    bool validity = false;
-    if((dest->getX() == src->getX()) 
-    && (src->getColor() == WHITE) 
-    && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1)))){
-        validity = true;
+    if(src->getColor() == WHITE){
+        if((dest->getX() == src->getX()) /* check that the move is still in the same column */
+        && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1)))) /*AND check if the move is one square up OR if the move is two squares up and the pawn
+        starts at it starting position (row B)*/{
+            return true;
+        }
+        else if((dest->getY() == src->getY()+1) /* Check that the move is one square up*/
+        && (dest->getPiece() != EMPTY) /*AND check that the destination piece*/
+        && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1)){
+            return true;
+        }
     }
-    else if((dest->getX() == src->getX()) 
-    && (src->getColor() == BLACK) 
-    && ((dest->getY() == src->getY()-1) || ((dest->getY() == src->getY()-2) && (src->getY() == 6)))){
-        validity = true;
+    else if(src->getColor() == BLACK){/* Check the piece is black*/
+        if((dest->getX() == src->getX()) /* check that the move is in the same column */
+        && ((dest->getY() == src->getY()-1) || ((dest->getY() == src->getY()-2) && (src->getY() == 6)))){/* check if the move is one square down OR if the mvoe is two squares down and the pawn
+        starts at its starting position (row G) */
+            return true;
+        }
+        else if((dest->getY() == src->getY()+1)
+        && (dest->getPiece() != EMPTY)
+        && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1)){
+            return true;
+        }
     }
-    else if(src->getColor() == WHITE){
-        validity = true;
-    }
-    else if((dest->getY() == src->getY()+1) 
-    && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1) 
-    && (dest->getColor() != src->getColor()) 
-    && (src->getColor() != NONE)){
-        validity = true;
-    }
-    else validity = false;
+    return false;
 
-    if(validity){
-        dest->setPiece(src->getPiece());
-        dest->setColor(src->getColor());
-        src->setColor(NONE);
-        src->setPiece(EMPTY);
-    }
-    return validity;
+
 }
 bool Board::moveRook(Square* src, Square* dest){
 
 }
 bool Board::moveKnight(Square* src, Square* dest){
-
+    if((dest->getX() == src->getX()+2 || dest->getX() == src->getX()-2) && (dest->getY() == src->getY()+1 || dest->getY() == src->getY()-1)){
+        return true;
+    }else return false;
 }
 bool Board::moveBishop(Square* src, Square* dest){
 
@@ -208,12 +208,18 @@ bool Board::movePiece(COLOR this_){
             msg+=" An error occured while moving a piece.";
             continue;
         }
-        if(!success){
+        if(success){
+            dest->setPiece(src->getPiece());
+            dest->setColor(src->getColor());
+            src->setColor(NONE);
+            src->setPiece(EMPTY);
+            break;
+        }
+        else{
             msg+=" ";
             msg+=(src->getChar(this_));
             msg+=" cannot move there.";
         }
-        else break;
     }
     return true;
 }
