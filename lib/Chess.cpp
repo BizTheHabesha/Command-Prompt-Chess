@@ -138,22 +138,31 @@ bool Board::movePawn(Square* src, Square* dest){
 bool Board::moveRook(Square* src, Square* dest){
     /* Check every square in a vertical line*/
     int xdist = src->getX()-dest->getX();/* get the distance*/
-    xdist = (xdist > 0) ? xdist : -xdist;/* make sure its positive*/
     int ydist = src->getY()-dest->getY();
-    ydist = (ydist > 0) ? ydist : -ydist;
-    if(xdist > 0 && ydist == 0){
-        for(int x = src->getX(); x < dest->getX(); x++){
+
+    if(xdist != 0 && ydist == 0 && xdist > 0){
+        for(int x = src->getX()+1; x < dest->getX(); x--){
             if(square_arr[x][src->getY()].getPiece() != EMPTY) return false;
         }
-        return true;
     }
-    else if(xdist == 0 && ydist > 0){
-        for(int y = src->getY(); y < dest->getY(); y++){
+    else if(xdist != 0 && ydist == 0){
+        xdist = xdist*-1;
+        for(int x = src->getX()+1; x < dest->getX(); x++){
+            if(square_arr[x][src->getY()].getPiece() != EMPTY) return false;
+        }
+    }
+    else if(ydist != 0 && xdist == 0 && ydist > 0){
+        for(int y = src->getY()+1; y <dest->getY(); y--){
             if(square_arr[src->getX()][y].getPiece() != EMPTY) return false;
         }
-        return true;
+    }else if(ydist != 0 && xdist == 0){
+        ydist = ydist*-1;
+        for(int y = src->getY()+1; y <dest->getY(); y++){
+            if(square_arr[src->getX()][y].getPiece() != EMPTY) return false;
+        }
     }
     else return false;
+    return true;
 }
 bool Board::moveKnight(Square* src, Square* dest){
     if((dest->getX() == src->getX()+2 || dest->getX() == src->getX()-2) && (dest->getY() == src->getY()+1 || dest->getY() == src->getY()-1)){
