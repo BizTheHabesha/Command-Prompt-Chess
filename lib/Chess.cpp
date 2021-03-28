@@ -251,10 +251,6 @@ bool Board::movePiece(COLOR this_, GAME_STATE curr_){
     return true;
 }
 void Board::populate(){
-    // populate from cache
-    for(int x = 0; x < 8; x++){
-        for(int y = 0; y < 8; y++) square_arr[x][y].setColor(NONE);
-    }
     Square temp;
     temp.setPiece(EMPTY);
     temp.setColor(NONE);
