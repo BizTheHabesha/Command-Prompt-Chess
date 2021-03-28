@@ -146,7 +146,6 @@ bool Board::moveRook(Square* src, Square* dest){
         }
     }
     else if(xdist != 0 && ydist == 0){
-        xdist = xdist*-1;
         for(int x = src->getX()+1; x < dest->getX(); x++){
             if(square_arr[x][src->getY()].getPiece() != EMPTY) return false;
         }
@@ -156,7 +155,6 @@ bool Board::moveRook(Square* src, Square* dest){
             if(square_arr[src->getX()][y].getPiece() != EMPTY) return false;
         }
     }else if(ydist != 0 && xdist == 0){
-        ydist = ydist*-1;
         for(int y = src->getY()+1; y <dest->getY(); y++){
             if(square_arr[src->getX()][y].getPiece() != EMPTY) return false;
         }
@@ -174,16 +172,17 @@ bool Board::moveKnight(Square* src, Square* dest){
     else return false;
 }
 bool Board::moveBishop(Square* src, Square* dest){
-
+    /* loop through squares between src and dest in a similar manner to the rook*/
 }
 bool Board::moveQueen(Square* src, Square* dest){
-
+    /* combine rook and bishop checks */
 }
 bool Board::moveKing(Square* src, Square* dest){
-
+    /* only moves one square */
 }
 bool Board::saveGame(){return true;} // W I P
-bool Board::movePiece(COLOR this_){
+bool Board::movePiece(COLOR this_, GAME_STATE curr_){
+    // if user is check
     string s, msg;
     int xsrc, ysrc, xdest, ydest;
     bool success;
@@ -321,18 +320,20 @@ void Board::drawBoard(){
 COLOR Board::playGame(){
     COLOR myTurn = WHITE;
     COLOR winner;
+    GAME_STATE curr = NORM;
     string s;
     bool success;
     int turns = 1;
     while(1){
         system("CLS"); // clear
         drawBoard();
-        if(myTurn) s = "White";
-        else s = "Black";
+        s = (!myTurn) ? "White" : "Black";
+        if(curr == CHECK) cout << s << " has you in check.\n";
+        s = (myTurn) ? "White" : "Black";
         cout << " [Turn: " << turns << "] " << s <<"'s turn:    [1] Move    [2] Resign    [3] Save and Exit\n  > ";
         getline(cin, s, '\n');
         if(s == "1"){
-            if(movePiece(myTurn)){
+            if(movePiece(myTurn, curr)){
                 myTurn = COLOR(!myTurn);
                 turns++;
             }
@@ -351,6 +352,7 @@ COLOR Board::playGame(){
             getline(cin, s, '\n');
             return myTurn;
         }
+        // check for 'check' and 'checkmate' game states. maybe add to movePiece()?
     }
     if(winner == BLACK) cout << "Black won! ";
     else if(winner == WHITE) cout << "White won! ";
