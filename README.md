@@ -7,6 +7,8 @@
 start chess.exe
 ```
 
+#### I urge you to comment problems, criticims, and compliments here and feel free to email me should you need to! As an aspiring developer I need to hear as much as I can.
+
 ## To Do:
  * [ ] Move Logic:
    * [x] Pawn
