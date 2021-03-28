@@ -8,7 +8,7 @@ start chess.exe
 ```
 
 ## To Do:
- * [ ] Piece Logic:
+ * [ ] Move Logic:
    * [x] Pawn
    * [x] Rook
    * [x] Knight
