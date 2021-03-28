@@ -111,13 +111,14 @@ Board::Board(){
 bool Board::movePawn(Square* src, Square* dest){
     if(src->getColor() == WHITE){
         if((dest->getX() == src->getX()) /* check that the move is still in the same column */
-        && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1)))) /*AND check if the move is one square up OR if the move is two squares up and the pawn
-        starts at it starting position (row B)*/{
+        && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1))/*AND check if the move IS one square up OR if the move IS two squares up AND the pawn
+        IS at its starting position (row B)*/
+        && (dest->getPiece() == EMPTY)))/*AND check the destination IS empty (pawns cannot take while moving forward*/{
             return true;
         }
-        else if((dest->getY() == src->getY()+1) /* Check that the move is one square up*/
-        && (dest->getPiece() != EMPTY) /*AND check that the destination piece*/
-        && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1)){
+        else if((dest->getY() == src->getY()+1) /* Check that the move IS one square up*/
+        && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1)/* AND check if the destination is one square to the right OR the left*/
+        && (dest->getPiece() != EMPTY))/*AND check that the destination piece IS NOT empty (pawns can only move diagonally if they are taking a piece.*/{
             return true;
         }
     }
