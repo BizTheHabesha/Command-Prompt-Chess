@@ -10,7 +10,6 @@
 #include "functions.hpp"
 
 using namespace std;
-string defaultSaveGameLocation = "../saves/initsave.chess";
 
 int linkFile(string location){
     ifstream save;
@@ -109,11 +108,11 @@ Board::Board(){
     populate();
 }
 bool Board::movePawn(Square* src, Square* dest){
-    if(src->getColor() == WHITE){
+    if(src->getColor() == WHITE){/*Check the piece is white*/
         if((dest->getX() == src->getX()) /* check that the move is still in the same column */
-        && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1))/*AND check if the move IS one square up OR if the move IS two squares up AND the pawn
+        && ((dest->getY() == src->getY()+1) || ((dest->getY() == src->getY()+2) && (src->getY() == 1)))/*AND check if the move IS one square up OR if the move IS two squares up AND the pawn
         IS at its starting position (row B)*/
-        && (dest->getPiece() == EMPTY)))/*AND check the destination IS empty (pawns cannot take while moving forward*/{
+        && (dest->getPiece() == EMPTY)){/*AND check the destination IS empty (pawns cannot take while moving forward*/
             return true;
         }
         else if((dest->getY() == src->getY()+1) /* Check that the move IS one square up*/
@@ -122,13 +121,14 @@ bool Board::movePawn(Square* src, Square* dest){
             return true;
         }
     }
-    else if(src->getColor() == BLACK){/* Check the piece is black*/
-        if((dest->getX() == src->getX()) /* check that the move is in the same column */
-        && ((dest->getY() == src->getY()-1) || ((dest->getY() == src->getY()-2) && (src->getY() == 6)))){/* check if the move is one square down OR if the mvoe is two squares down and the pawn
-        starts at its starting position (row G) */
+    /* The same principles apply below, but inverted for black pieces*/
+    else if(src->getColor() == BLACK){
+        if((dest->getX() == src->getX())
+        && ((dest->getY() == src->getY()-1) || ((dest->getY() == src->getY()-2) && (src->getY() == 6)))
+        && (dest->getPiece() == EMPTY)){
             return true;
         }
-        else if((dest->getY() == src->getY()+1)
+        else if((dest->getY() == src->getY()-1)
         && (dest->getPiece() != EMPTY)
         && (dest->getX() == src->getX()+1 || dest->getX() == src->getX()-1)){
             return true;
