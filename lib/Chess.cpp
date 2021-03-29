@@ -67,41 +67,13 @@ PIECE Square::getPiece(){
     return piece;
 }
 char Square::getChar(COLOR sq_color){
-    if(color == BLACK){
-        switch(piece){
-            case PAWN: return char(PAWN);
-            case ROOK: return char(ROOK);
-            case BISHOP: return char(BISHOP);
-            case KNIGHT: return char(KNIGHT);
-            case QUEEN: return char(QUEEN);
-            case KING: return char(KING);
-            case NONE: 
-                if(sq_color == BLACK) return ' ';
-                else return '.';
-        };
-    }else if(color == WHITE){
-        switch(piece){
-            case PAWN: return (char(PAWN)-32);
-            case ROOK: return (char(ROOK)-32);
-            case BISHOP: return (char(BISHOP)-32);
-            case KNIGHT: return (char(KNIGHT)-32);
-            case QUEEN: return (char(QUEEN)-32);
-            case KING: return (char(KING)-32); 
-            case NONE:
-                if(sq_color == BLACK) return ' ';
-                else return '.';
-        };
-    }else if(color == NONE && sq_color == BLACK) return ' ';
-    else if(color == NONE && sq_color == WHITE) return '.';
-    else{
-        try{
-            throw runtime_error(string(" broken logic..."));
-        }catch(runtime_error& rte){
-            cerr << rte.what() << endl;
-            abort();
-        }
+    char temp;
+    if(piece == EMPTY){
+        if(sq_color == BLACK) return ' ';
+        else return '.';
     }
-    return '?';
+    else if(color == WHITE) return char(piece)-32;
+    else return char(piece);
 }
 
 Board::Board(){
