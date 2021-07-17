@@ -28,3 +28,6 @@ start chess.exe
    * [ ] Checkmate
  * [ ] Saving and Loading games
  * [ ] Online multiplayer
+
+# Quick Update!
+everything is broken...
