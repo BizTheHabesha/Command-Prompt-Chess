@@ -57,11 +57,11 @@ bool ableSTOI(string sInput){
         cerr << "Error: --Out of Range: --" << oor.what() << endl;
         return false;
     }catch(exception& ex){ 
-        cerr << "Error: --Undefined-Throw: " << ex.what() << endl;
+        cerr << "Error: --Undefined-Throw: --" << ex.what() << endl;
         cout << "Sorry, something unexpected happend! Please submit a screenshot to github.\n";
         return false;
     }catch(...){
-        cerr << "Error: --Unexpected-Throw catch_all abort()\n";
+        cerr << "Error: --Unexpected-Throw --catch_all abort()\n";
         cout << "Sorry, something unexpected happend! Please submit a screenshot to github.\n";
         abort();
     }
