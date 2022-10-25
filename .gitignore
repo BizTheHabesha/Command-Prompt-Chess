@@ -3,3 +3,4 @@ cache.chess
 *.out
 *.exe
 *.game
+src/source
