@@ -11,6 +11,8 @@
 
 using namespace std;
 
+string configFilePath = "../config/config.chess";
+
 int linkFile(string location){
     ifstream save;
     string temp;
@@ -23,9 +25,9 @@ int linkFile(string location){
 }
 int editConfig(int setting){
     fstream config;
-    config.open("../config/config.chess");
+    config.open(configFilePath);
     try{
-        if(!config.is_open()) throw runtime_error(string("fstream: failed to open \"../config/config.chess\"\nYour game may be incorrectly initialized!"));
+        if(!config.is_open()) throw runtime_error(string("fstream: failed to open config file.\nYour game may be incorrectly initialized!"));
     }catch(runtime_error& fto){
         cerr << "Error: -" << fto.what() << endl;
         return -1;
