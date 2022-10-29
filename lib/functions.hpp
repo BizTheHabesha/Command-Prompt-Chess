@@ -92,4 +92,15 @@ bool ableFSTREAM(string location){
     }
     file.close();
     return false;
+}
+bool clearT(){
+    #ifdef _WIN32
+        system("cls");
+        return true;
+    #elif __unix__
+        system("clear");
+        return true;
+    #else
+        return false;
+    #endif
 };

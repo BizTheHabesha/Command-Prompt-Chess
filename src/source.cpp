@@ -11,6 +11,6 @@ int main(){
         getline(cin, s, '\n');
         if(s != "1") break;
     }
-    system("CLS");
+    clearT();
     return 0;
 }

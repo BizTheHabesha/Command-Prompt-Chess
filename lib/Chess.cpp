@@ -162,7 +162,7 @@ bool Board::movePiece(COLOR this_, GAME_STATE curr_){
     int xsrc, ysrc, xdest, ydest;
     bool success;
     while(1){
-        system("CLS");
+        clearT();
         drawBoard();
         cout << msg << endl;
         msg.clear();
@@ -296,7 +296,7 @@ COLOR Board::playGame(){
     bool success;
     int turns = 1;
     while(1){
-        system("CLS"); // clear
+        clearT(); // clear
         drawBoard();
         s = (!myTurn) ? "White" : "Black";
         if(curr == CHECK) cout << s << " has you in check.\n";
@@ -310,7 +310,7 @@ COLOR Board::playGame(){
             }
         }
         else if(s == "2"){
-            system("CLS");
+            clearT();
             cout << " This means your opponent wins, are you sure?\n [1] Yes, resign the match\n [2] No, take me back!\n > ";
             getline(cin, s, '\n');
             if(s == "2") continue;
