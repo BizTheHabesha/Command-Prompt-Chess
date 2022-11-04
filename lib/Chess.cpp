@@ -116,7 +116,7 @@ bool Board::moveRook(Square* src, Square* dest){
     int ydist = src->getY()-dest->getY();
 
     if(xdist != 0 && ydist == 0 && xdist > 0){
-        for(int x = src->getX()-1; x < dest->getX(); x--){
+        for(int x = src->getX()-1; x > dest->getX(); x--){
             if(square_arr[x][src->getY()].getPiece() != EMPTY) return false;
         }
     }
@@ -126,7 +126,7 @@ bool Board::moveRook(Square* src, Square* dest){
         }
     }
     else if(ydist != 0 && xdist == 0 && ydist > 0){
-        for(int y = src->getY()-1; y < dest->getY(); y--){
+        for(int y = src->getY()-1; y > dest->getY(); y--){
             if(square_arr[src->getX()][y].getPiece() != EMPTY) return false;
         }
     }else if(ydist != 0 && xdist == 0){
